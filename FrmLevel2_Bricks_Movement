@@ -1,7 +1,112 @@
-echo "# WallMoveMent" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/yead1409031/WallMoveMent.git
-git push -u origin main
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Fall2020_CSC403_Project
+{
+    public partial class FrmLevel2 : Form
+    {
+        // Variables to track the direction and movement of walls
+        private int horizontalWallDirection = 1; // 1 for right, -1 for left
+        private int verticalWallDirection = 1;   // 1 for down, -1 for up
+
+        public FrmLevel2()
+        {
+            InitializeComponent();
+
+
+        }
+
+        private void picWall9_Click(object sender, EventArgs e)
+        {
+            // Handle the click event for the walls if needed
+        }
+
+        
+
+        
+
+        private void verticalWallTimer_Tick(object sender, EventArgs e)
+        {
+            int verticalWallSpeed = 2; // Adjust the speed as needed
+
+            // Save the original position
+            int originalTop9 = picWall9.Top;
+            int originalTop10 = picWall10.Top;
+
+            // Move picWall9
+            picWall9.Top += verticalWallDirection * verticalWallSpeed;
+
+            // Check if picWall9 has collided with any other walls
+            if (HasCollisionWithOtherWalls(picWall9))
+            {
+                // Restore the original position
+                picWall9.Top = originalTop9;
+                // Change direction when colliding with other walls
+                verticalWallDirection *= -1;
+            }
+
+            // Move picWall10
+            picWall10.Top += verticalWallDirection * verticalWallSpeed;
+
+            // Check if picWall10 has collided with any other walls
+            if (HasCollisionWithOtherWalls(picWall10))
+            {
+                // Restore the original position
+                picWall10.Top = originalTop10;
+                // Change direction when colliding with other walls
+                verticalWallDirection *= -1;
+            }
+
+            
+        }
+        private bool HasCollisionWithOtherWalls(PictureBox wall)
+        {
+            foreach (Control control in Controls)
+            {
+                if (control is PictureBox otherWall && otherWall != wall && wall.Bounds.IntersectsWith(otherWall.Bounds))
+                {
+                    return true; // Collision detected
+                }
+            }
+            return false; // No collision
+        }
+
+        private void horizontalWallTimer_Tick(object sender, EventArgs e)
+        {
+            int horizontalWallSpeed = 2; // Adjust the speed as needed
+
+            // Save the original position
+            int originalLeft3 = picWall3.Left;
+            int originalLeft12 = picWall12.Left;
+
+            // Move picWall3 horizontally
+            picWall3.Left += horizontalWallDirection * horizontalWallSpeed;
+
+            // Check if picWall3 has collided with any other walls
+            if (HasCollisionWithOtherWalls(picWall3))
+            {
+                // Restore the original position
+                picWall3.Left = originalLeft3;
+                // Change direction when colliding with other walls
+                horizontalWallDirection *= -1;
+            }
+
+            // Move picWall12 horizontally
+            picWall12.Left += horizontalWallDirection * horizontalWallSpeed;
+
+            // Check if picWall12 has collided with any other walls
+            if (HasCollisionWithOtherWalls(picWall12))
+            {
+                // Restore the original position
+                picWall12.Left = originalLeft12;
+                // Change direction when colliding with other walls
+                horizontalWallDirection *= -1;
+            }
+        }
+    }
+}
